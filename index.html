@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <title>Typing Game</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style\style.css">
+    <link rel="stylesheet" href="style\side_panel.css">
+
+
+    
+</head>
+<body>
+
+<div id="draggable">
+    <div id="header"><i class="fas fa-cog"></i></div>
+
+
+</div>
+
+<!-- Panel -->
+<div id="side-panel" class="hidden">
+    <div id="panel-content" >
+        <div class="theme-container">
+            <button id="theme-toggle" aria-label="Toggle theme"><i class="fas fa-sun"></i></button>
+            <h5>night</h5>
+        </div>
+
+    </div>
+</div>
+
+    <main>
+        <h1> <span>🍂</span> Typing Game</h1>
+        <div id="header">
+            <div id="info">30</div>
+            <div id="buttons">
+                <button id="new-game" class="button-48" role="button"><span class="text">new game</span></button>
+            </div>
+            </div>
+        <div id="game" tabindex="1">
+            <div id="words">
+
+            </div>
+            <div id="cursor-error">
+                click here to focus
+            </div>
+            <div id="cursor">
+
+            </div>
+        </div>
+    </main>
+<script src="js\sidePanelControl.js"></script>
+<script src="js\main.js"></script>
+<script src="js\theme.js"></script>
+</body>
+</html>

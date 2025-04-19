@@ -1,0 +1,229 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+body{
+    font-family: 'Roboto',sans-serif;
+    background-color: var(--bgColor);
+    color: var(--textPrimary);
+    box-sizing: border-box;
+}
+
+main{
+    width: 600px;
+    margin: 50px auto;
+    /*border: aliceblue solid 1px;*/
+}
+h1{
+    color: var(--primaryColor);
+}
+
+#header{
+    height:50px;
+    width: 600px;
+    /*border: orange solid 0.5px;*/
+    display: grid;
+    grid-template-columns: 50% 50%;
+    /*align-content: center;*/
+    align-items: center;
+    /*justify-content: right;*/
+    margin: 30px 10px;
+    /*padding-bottom: 40px;*/
+}
+#info{
+    color: var(--primaryColor);
+    /*background-color: rgba(0, 255, 255, 0.65);*/
+}
+#buttons{
+    text-align: right;
+}
+
+.button-48 {
+    border-radius:  10px ;
+    appearance: none;
+    background-color: #EBEBEB;
+    /*background-color: var(--primaryColor);*/
+    border-width: 0;
+    box-sizing: border-box;
+    color: #000000;
+    cursor: pointer;
+    display: inline-block;
+    font-family: 'Roboto light',Helvetica,sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 1em;
+    margin: 0;
+    opacity: 1;
+    outline: 0;
+    padding: 0.7em 1.5em;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    text-rendering: geometricprecision;
+    text-transform: uppercase;
+    transition: opacity 600ms cubic-bezier(.694, 0, 0.335, 1),background-color 300ms cubic-bezier(.694, 0, 0.335, 1),color 300ms cubic-bezier(.694, 0, 0.335, 1);
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: baseline;
+    white-space: nowrap;
+}
+
+.button-48:before {
+    border-radius: 10px;
+    animation: opacityFallbackOut .5s step-end forwards;
+    backface-visibility: hidden;
+    background-color: var(--primaryColor);
+    clip-path: polygon(-1% 0, 0 0, -25% 100%, -1% 100%);
+    content: "";
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    transform: translateZ(0);
+    transition: clip-path .5s cubic-bezier(.165, 0.84, 0.44, 1), -webkit-clip-path .5s cubic-bezier(.165, 0.84, 0.44, 1);
+    width: 100%;
+}
+
+.button-48:hover:before {
+    animation: opacityFallbackIn 0s step-start forwards;
+    clip-path: polygon(0 0, 101% 0, 101% 101%, 0 101%);
+}
+
+.button-48:after {
+    background-color: #FFFFFF;
+}
+
+.button-48 span {
+    z-index: 1;
+    position: relative;
+}
+
+/*button{*/
+/*    border: none;*/
+/*    border-radius: 10px;*/
+/*    padding: 5px 10px;*/
+/*    background-color: orange;*/
+/*    color:white ;*/
+/*}*/
+
+
+div.word{
+    display: inline-block;
+    font-family: 'Roboto Mono',monospace;
+    margin: 0 6px;
+}
+
+
+#game{
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    /*background: white;*/
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    width: 600px;
+    line-height: 30px;
+    height: 150px;
+    overflow: hidden;
+    /*border: orange solid 0.5px;*/
+
+}
+
+
+
+#words{
+    filter: blur(5px);
+    color: var(--textSecondary);
+
+}
+#game:focus #words{
+    filter: blur(0px);
+}
+#game:focus #cursor-error{
+    display: none;
+}
+#cursor-error{
+    position: absolute;
+    inset: 0;
+    text-align: center;
+    align-self: center;
+    top: -75px;
+}
+
+#cursor{
+    display: none;
+    width: 2px;
+    height: 1.4rem;
+    background-color: var(--primaryColor);
+    position: fixed;
+    top:202px;
+    left: 387px;
+    animation: blink .5s infinite;
+}
+#game:focus #cursor{
+    display: block;
+}
+
+div#game:focus{
+    /*outline: 0;*/
+}
+
+.word {
+    display: inline-block;
+    margin: 5px;
+    font-size: 24px;
+}
+
+.letter {
+    display: inline-block;
+    padding: 2px;
+    /*border: 1px solid #ccc;*/
+    border-radius: 4px;
+}
+
+.letter.correct{
+    color: var(--textPrimary);
+    /*background-color: #c8e6c9; !* Light green *!*/
+}
+.letter.incorrect{
+    color: red;
+    /*background-color: #ffcdd2; !* Light red *!*/
+}
+
+.current {
+    /*border: 2px solid #3f51b5; !* Blue *!*/
+}
+
+#game.over #words{
+    opacity: 0.3;
+    filter: blur(0px);
+}
+#game.over #cursor{
+    display: none;
+}
+#game.over #cursor-error{
+    display: none;
+}
+
+
+
+
+
+
+
+
+
+
+@keyframes blink {
+    0%{
+        opacity: 1;
+    }
+    50%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
+
+}
