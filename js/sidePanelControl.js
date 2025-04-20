@@ -38,13 +38,15 @@ const moveBox = (e) => {
     const dragPercent = (targetX / window.innerWidth) * 100;
     // console.log(`Drag Percent: ${dragPercent.toFixed(1)}%`);
 
-    if (active) {
-        const isSticky = (dragPercent >= 25 && dragPercent <= 30) ||
-            (dragPercent >= 70 && dragPercent <= 75);
+    const isSticky = (dragPercent >= 25 && dragPercent <= 30) ||
+        (dragPercent >= 70 && dragPercent <= 75);
 
-        // class toggles
-        box.classList.toggle('sticky-zone', isSticky);
-        box.classList.toggle('glow',         isSticky);
+    // class toggles
+
+    box.classList.toggle('sticky-zone', isSticky);
+    box.classList.toggle('glow',         isSticky);
+
+    if (active&& isSticky) {
 
         // wiggle (CSS‑class approach recommended!)
         box.style.transform = isSticky

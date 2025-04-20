@@ -16,7 +16,7 @@ h1{
     color: var(--primaryColor);
 }
 
-#header{
+.header{
     height:50px;
     width: 600px;
     /*border: orange solid 0.5px;*/

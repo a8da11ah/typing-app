@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log("Theme script loaded");
 
     const themeToggleButton = document.getElementById('theme-toggle');
+    const themeText = document.getElementById('theme-text')
     console.log("Theme toggle button:", themeToggleButton);
     if (!themeToggleButton) {
         console.error("Theme toggle button not found");
@@ -25,5 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updateThemeIcon(theme) {
         themeIcon.className = theme === 'light' ? 'fas fa-sun' : 'fas fa-moon';
+        themeText.innerHTML = theme === 'light' ? 'Day' : 'Night';
     }
 });

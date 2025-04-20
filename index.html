@@ -15,16 +15,20 @@
 
 <div id="draggable">
     <div id="header"><i class="fas fa-cog"></i></div>
-
-
 </div>
 
 <!-- Panel -->
 <div id="side-panel" class="hidden">
     <div id="panel-content" >
         <div class="theme-container">
+            <h5 id="theme-text">night</h5>
             <button id="theme-toggle" aria-label="Toggle theme"><i class="fas fa-sun"></i></button>
-            <h5>night</h5>
+        </div>
+        <div class="mode-container">
+            <button class="mode-btn" id="mode-time" aria-label="Time mode">Time</button>
+            <button class="mode-btn" id="mode-words" aria-label="Words mode">Words</button>
+            <button class="mode-btn" id="mode-quote" aria-label="Quote mode">Quote</button>
+            <button class="mode-btn" id="mode-custom" aria-label="Custom mode">Custom</button>
         </div>
 
     </div>
@@ -32,7 +36,7 @@
 
     <main>
         <h1> <span>🍂</span> Typing Game</h1>
-        <div id="header">
+        <div class="header">
             <div id="info">30</div>
             <div id="buttons">
                 <button id="new-game" class="button-48" role="button"><span class="text">new game</span></button>
