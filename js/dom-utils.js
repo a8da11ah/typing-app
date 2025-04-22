@@ -15,6 +15,7 @@ export class DOMUtils {
     static setTextContent(el, text) {
         el.textContent = text;
     }
+
     // static setAcitveMode(el, mode) {
     //     if (mode === 'active') {
     //         el.classList.add('active');

@@ -1,24 +1,124 @@
+
+
 import {DOMUtils} from "./dom-utils";
+import {DataService} from "./data-service";
+
+const gameConfig = {
+    mode :'words',
+    options :{
+        words: '10',
+        time: '10',
+        quote: 'short'
+    }
+}
 
 
-const modeButtons = document.querySelectorAll('.mode-btn');
 
 // Add click listener to each button
+const modeButtons = document.querySelectorAll('.mode-btn');
+const modeOptionsMap = {
+    'words': 'words-options',
+    'time': 'time-options',
+    'quote': 'quote-options',
+};
+
+function updateGameConfig(mode, value) {
+    gameConfig.mode = mode;
+
+    if (mode === 'words') {
+        gameConfig.options.words = parseInt(value);
+    } else if (mode === 'time') {
+        gameConfig.options.time = parseInt(value);
+    } else if (mode === 'quote') {
+        gameConfig.options.quoteLength = value.toLowerCase();
+    }
+
+    console.log('Updated Config:', gameConfig);
+}
+
+// Handle mode change
+function handleModeChange(selectedMode) {
+    // Hide all options
+    document.querySelectorAll('.mode-options').forEach(opt => {
+        opt.style.display = 'none';
+    });
+
+    // Show and activate options for selected mode
+    const optionsDivId = modeOptionsMap[selectedMode];
+    if (optionsDivId) {
+        const optionsDiv = document.getElementById(optionsDivId);
+        optionsDiv.style.display = 'flex';
+        activateFirstOption(optionsDiv);
+    }
+}
+
+// Activate first option in a container
+function activateFirstOption(optionsDiv) {
+    const buttons = optionsDiv.querySelectorAll('button');
+    buttons.forEach(btn => btn.classList.remove('active-option'));
+    if (buttons.length > 0) {
+        buttons[0].classList.add('active-option');
+    }
+    updateGameConfig(gameConfig.mode, buttons[0].textContent);
+}
+
+// Handle option selection
+function handleOptionClick(clickedButton) {
+    const parentOptions = clickedButton.closest('.mode-options');
+    parentOptions.querySelectorAll('button').forEach(btn => {
+        btn.classList.remove('active-option');
+    });
+    clickedButton.classList.add('active-option');
+
+
+}
+
+// Mode button event listeners
 modeButtons.forEach(button => {
     button.addEventListener('click', function() {
-        // 1. Remove active class from ALL buttons
+        // Update active mode button
         modeButtons.forEach(btn => btn.classList.remove('active-mode'));
-
-        // 2. Add active class to clicked button
         this.classList.add('active-mode');
 
-        // 3. Get which mode was selected
-        const selectedMode = this.dataset.mode;
+        let mode= this.dataset.mode;
+        gameConfig.mode = mode;
 
-        // 4. Do something with the selected mode
-        // startGame(selectedMode);
+        // Handle mode change
+        handleModeChange(mode);
     });
 });
+
+
+
+
+// Option button event listeners
+document.querySelectorAll('.mode-options button').forEach(button => {
+    button.addEventListener('click', function() {
+        console.log("Option clicked:", this);
+        handleOptionClick(this);
+
+        updateGameConfig(
+            gameConfig.mode,
+            this.textContent
+        );
+    });
+});
+
+// Initialize first mode options on load
+document.addEventListener('DOMContentLoaded', () => {
+    const initialMode = document.querySelector('.mode-btn.active-mode').dataset.mode;
+    handleModeChange(initialMode);
+    console.log(initialMode)
+});
+
+
+
+async function initializeApp() {
+    await DataService.fetchData()
+
+}
+
+
 
 
 
