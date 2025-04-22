@@ -1,5 +1,76 @@
 const words ="The quick brown fox jumps over the lazy dog while the sun shines brightly in the clear blue sky. Programming is an essential skill in today's world, and JavaScript is one of the most popular languages. Developers use it to build websites, apps, and games that run smoothly on any device. Typing games help improve speed and accuracy, making them a great way to practice coding. As you type, focus on precision and avoid mistakes to achieve a high score. The more you play, the better you'll get at typing complex sentences and code snippets. Challenge yourself with different levels of difficulty and compete with friends to see who can type the fastest. Remember to take breaks and stretch your hands to avoid strain. Consistency is key to mastering any skill, so keep practicing every day. With dedication and effort, you'll soon notice significant improvements in your typing speed and coding abilities. Stay motivated and enjoy the process of learning something new. Good luck, and have fun playing the game!".split(' ');
 
+
+
+// Add click listener to each button
+const modeButtons = document.querySelectorAll('.mode-btn');
+const modeOptionsMap = {
+    'words': 'words-options',
+    'time': 'time-options',
+    'quote': 'quote-options',
+};
+
+// Handle mode change
+function handleModeChange(selectedMode) {
+    // Hide all options
+    document.querySelectorAll('.mode-options').forEach(opt => {
+        opt.style.display = 'none';
+    });
+
+    // Show and activate options for selected mode
+    const optionsDivId = modeOptionsMap[selectedMode];
+    if (optionsDivId) {
+        const optionsDiv = document.getElementById(optionsDivId);
+        optionsDiv.style.display = 'flex';
+        activateFirstOption(optionsDiv);
+    }
+}
+
+// Activate first option in a container
+function activateFirstOption(optionsDiv) {
+    const buttons = optionsDiv.querySelectorAll('button');
+    buttons.forEach(btn => btn.classList.remove('active-option'));
+    if (buttons.length > 0) {
+        buttons[0].classList.add('active-option');
+    }
+}
+
+// Handle option selection
+function handleOptionClick(clickedButton) {
+    const parentOptions = clickedButton.closest('.mode-options');
+    parentOptions.querySelectorAll('button').forEach(btn => {
+        btn.classList.remove('active-option');
+    });
+    clickedButton.classList.add('active-option');
+}
+
+// Mode button event listeners
+modeButtons.forEach(button => {
+    button.addEventListener('click', function() {
+        // Update active mode button
+        modeButtons.forEach(btn => btn.classList.remove('active-mode'));
+        this.classList.add('active-mode');
+
+        // Handle mode change
+        handleModeChange(this.dataset.mode);
+    });
+});
+
+// Option button event listeners
+document.querySelectorAll('.mode-options button').forEach(button => {
+    button.addEventListener('click', function() {
+        console.log("Option clicked:", this);
+        handleOptionClick(this);
+    });
+});
+
+// Initialize first mode options on load
+document.addEventListener('DOMContentLoaded', () => {
+    const initialMode = document.querySelector('.mode-btn.active-mode').dataset.mode;
+    handleModeChange(initialMode);
+});
+
+
 // حساب الوقت
 const gameTimer = 10 * 1000;
 window.timer = null;
@@ -16,8 +87,8 @@ function removeClass(el,cName) {
 
 
 function randomWord() {
-    const randonIndex = Math.ceil(Math.random()*words.length-1);
-    return words[randonIndex ];
+    const randomIndex = Math.ceil(Math.random()*words.length-1);
+    return words[randomIndex ];
 }
 
 function formatWord(word) {
@@ -242,3 +313,10 @@ document.getElementById('game').addEventListener("keydown", ev => {
 
 
 newGame();
+
+
+
+function showWords(){
+
+    console.log(localStorage.getItem('words'))
+}

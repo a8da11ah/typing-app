@@ -25,10 +25,29 @@
             <button id="theme-toggle" aria-label="Toggle theme"><i class="fas fa-sun"></i></button>
         </div>
         <div class="mode-container">
-            <button class="mode-btn" id="mode-time" aria-label="Time mode">Time</button>
-            <button class="mode-btn" id="mode-words" aria-label="Words mode">Words</button>
-            <button class="mode-btn" id="mode-quote" aria-label="Quote mode">Quote</button>
-            <button class="mode-btn" id="mode-custom" aria-label="Custom mode">Custom</button>
+            <button class="mode-btn active-mode" data-mode="words" aria-label="Time mode">Words</button>
+            <button class="mode-btn" data-mode="time" aria-label="Words mode">Time</button>
+            <button class="mode-btn" data-mode="quote" aria-label="Quote mode">Quotes</button>
+        </div>
+        <div class="mode-options" id="words-options">
+            <button class="active-option">15 </button>
+            <button>30 </button>
+            <button>100 </button>
+            <button>Custom</button>
+        </div>
+
+        <div class="mode-options" id="time-options" style="display: none;">
+            <button>30</button>
+            <button>60</button>
+            <button>100</button>
+            <button>Custom</button>
+        </div>
+
+        <div class="mode-options" id="quote-options" style="display: none;">
+            <button>Short</button>
+            <button>Medium</button>
+            <button>Long</button>
+            <button>Custom</button>
         </div>
 
     </div>
