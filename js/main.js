@@ -11,7 +11,7 @@ async function initializeApp() {
     // console.log(DataService.getQuotesFromStorage())
 }
 
-
+// console.log(initializeApp())
 
 
 const gameConfig = {
@@ -27,9 +27,9 @@ const gameConfig = {
 
 // Initialize first mode options on load
 document.addEventListener('DOMContentLoaded', () => {
-    const initialMode = document.querySelector('.mode-btn.active-mode').dataset.mode;
-    handleModeChange(initialMode);
     console.log(initializeApp());
+    const initialMode = document.querySelector('.mode-btn.active-mode').dataset.mode;
+    // handleModeChange(initialMode);
 });
 
 

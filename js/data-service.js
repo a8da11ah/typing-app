@@ -40,11 +40,13 @@ export class DataService {
     static wordsStorageKey = 'wordsCache';
 
     static async fetchData() {
+        this.clearCache()
         const quotesCache = localStorage.getItem(this.quotesStorageKey);
         const wordsCache = localStorage.getItem(this.wordsStorageKey);
 
         // Only fetch if either cache is missing
         if (!quotesCache || !wordsCache) {
+            console.log('Fetching data from files...');
             try {
                 const quotes = await this.fetchQuotes();
                 const words = await this.loadLocalWords();
@@ -58,6 +60,8 @@ export class DataService {
             console.log('Data already cached. Skipping fetch.');
         }
     }
+
+
 
 
 
@@ -87,4 +91,5 @@ export class DataService {
     //         console.error('Failed to fetch quotes:', error);
     //     }
     // }
+
 }
