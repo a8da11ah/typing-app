@@ -22,6 +22,18 @@ const gameConfig = {
         quote: 'short'
     }
 }
+const typingStats = {
+    correct: 0,
+    incorrect: 0,
+    extra: 0,
+    missed: 0,
+    get accuracy() {
+        const totalAttempted = this.correct + this.incorrect + this.extra;
+        return totalAttempted > 0
+            ? Math.round((this.correct / totalAttempted) * 100)
+            : 0;
+    }
+};
 
 
 
@@ -29,7 +41,7 @@ const gameConfig = {
 document.addEventListener('DOMContentLoaded', () => {
     console.log(initializeApp());
     const initialMode = document.querySelector('.mode-btn.active-mode').dataset.mode;
-    // handleModeChange(initialMode);
+    handleModeChange(initialMode);
 });
 
 
@@ -158,6 +170,13 @@ function formatWord(word) {
 
 
 function newGame() {
+
+    typingStats.correct = 0;
+    typingStats.incorrect = 0;
+    typingStats.extra = 0;
+    typingStats.missed = 0;
+    console.log("reset typing stats",typingStats)
+
     clearInterval(window.timer);  // 🚨 Clear any existing timer
     window.timer = null;
     window.gameStart = null;
@@ -203,22 +222,34 @@ function newGame() {
     const firstLetter = firstWord.querySelector('.letter');
     addClass(firstWord, 'current');
     addClass(firstLetter, 'current');
+    updateCursorPosition()
 
     // Set initial info display
     if (gameConfig.mode === 'time') {
         document.getElementById('info').textContent = gameConfig.options.time;
     } else if (gameConfig.mode === 'words') {
         wordsRemaining = parseInt(gameConfig.options.words);
-        document.getElementById('info').textContent = wordsRemaining;
+        document.getElementById('total-words').textContent = wordsRemaining;
+        document.getElementById('words-remain').textContent = wordsRemaining;
+
     } else {
         document.getElementById('info').textContent = '0';
     }
 
-    window.timer = null;
+    // window.timer = null;
 }
 
 
+// function getWpm() {
+//
+//     const elapsed = (Date.now() - window.gameStart) / 1000 / 60;
+//     const wpm = Math.round(typingStats.correct / 5 / elapsed);
+//
+//     return wpm;
+// }
+
 function getWpm() {
+    typingStats.correct = document.querySelectorAll('.correct').length;
     const words = [...document.querySelectorAll('.word')];
     const lastTypedWord = document.querySelector('.word.current');
     const index = words.indexOf(lastTypedWord);
@@ -230,7 +261,9 @@ function getWpm() {
         )
     );
 
+
     const elapsedTime = (Date.now() - window.gameStart) / 1000;
+    console.log("elapsed time", elapsedTime/60)
     return elapsedTime > 0 ? Math.round(correctWords.length / (elapsedTime / 60)) : 0;
 }
 
@@ -239,23 +272,25 @@ function getWpm() {
 
 
 function gameOver() {
+    // updateAllStats()
     clearInterval(window.timer)
     addClass(document.getElementById('game'),'over');
     const wpm = getWpm();
     // alert(`Game Over! Your WPM: ${wpm}`);
-    document.getElementById('info').innerHTML = ` WPM: ${wpm}`;
+    // document.getElementById('info').innerHTML = ` WPM: ${wpm}`;
+
+
+
+    document.getElementById('wpm').innerHTML = ` WPM: ${wpm}`
+    document.getElementById('accuracy').innerHTML = ` accuracy: ${typingStats.accuracy}`
+    document.getElementById('letters-stats').innerHTML =
+        `${typingStats.correct}/${typingStats.incorrect}/${typingStats.extra}/${typingStats.missed}`
+
 }
 
 
 
 
-
-function extraLetters() {
-    const incorrectLetter = document.createElement("span");
-    incorrectLetter.innerHTML = key;
-    incorrectLetter.className = 'letter incorrect extra';
-    currentWord.appendChild(incorrectLetter);
-}
 
 
 
@@ -309,9 +344,21 @@ function startTimerIfNeeded(key) {
 
 function handleLetter(key, currentWord, currentLetter) {
     if (currentLetter) {
+        const wasIncorrect = currentLetter.classList.contains('incorrect');
         const isCorrect = key === currentLetter.innerText;
         currentLetter.classList.add(isCorrect ? 'correct' : 'incorrect');
         currentLetter.classList.remove('current');
+
+
+        // Update stats
+        if (isCorrect) {
+            typingStats.correct++;
+            if (wasIncorrect) typingStats.incorrect--;
+        } else {
+            typingStats.incorrect++;
+            if (wasIncorrect) typingStats.incorrect--; // Prevent double-counting
+        }
+
 
         const nextLetter = currentLetter.nextElementSibling?.classList?.contains('letter')
             ? currentLetter.nextElementSibling
@@ -322,13 +369,21 @@ function handleLetter(key, currentWord, currentLetter) {
         extraLetter.textContent = key;
         extraLetter.className = 'letter incorrect extra';
         currentWord.appendChild(extraLetter);
+        typingStats.extra++;
     }
 }
 
 function handleSpace(currentWord, currentLetter) {
+    let missedInWord= 0;
     // Invalidate incorrect letters in current word
     document.querySelectorAll('.word.current .letter:not(.correct)')
-        .forEach(letter => letter.classList.add('incorrect'));
+        .forEach(letter => {
+            letter.classList.add('incorrect')
+            missedInWord++;
+            // typingStats.missed++;
+        });
+    typingStats.missed += missedInWord;
+    typingStats.incorrect += missedInWord;
 
     currentWord?.classList.remove('current');
     currentLetter?.classList.remove('current');
@@ -337,6 +392,11 @@ function handleSpace(currentWord, currentLetter) {
     if (nextWord) {
         nextWord.classList.add('current');
         nextWord.firstElementChild?.classList.add('current');
+
+        if (gameConfig.mode === 'words') {
+            wordsRemaining--;
+            document.getElementById('words-remain').textContent = wordsRemaining;
+        }
     } else {
         gameOver();
     }
@@ -346,7 +406,16 @@ function handleBackspace(currentWord, currentLetter) {
     const extraLetters = document.querySelectorAll('.letter.incorrect.extra');
     if (extraLetters.length > 0) {
         extraLetters[extraLetters.length - 1].remove();
+        typingStats.extra = Math.max(0, typingStats.extra - 1);
+
         return;
+    }
+    if (currentLetter) {
+        const wasCorrect = currentLetter.classList.contains('correct');
+        const wasIncorrect = currentLetter.classList.contains('incorrect');
+
+        if (wasCorrect) typingStats.correct--;
+        if (wasIncorrect) typingStats.incorrect--;
     }
 
     if (!currentLetter && currentWord.lastElementChild) {
@@ -355,6 +424,8 @@ function handleBackspace(currentWord, currentLetter) {
         lastLetter.classList.remove('incorrect', 'correct');
         return;
     }
+
+
 
     if (currentLetter?.previousElementSibling) {
         currentLetter.classList.remove('current');
@@ -381,11 +452,11 @@ function handlePreviousWord(currentWord) {
 function updateCursorPosition() {
     const cursor = document.getElementById('cursor');
     const target = document.querySelector('.letter.current') || document.querySelector('.word.current');
-
+    // console.log()
     if (target && cursor) {
         const rect = target.getBoundingClientRect();
-        cursor.style.top = `${rect.top + (target.classList.contains('letter') ? -2 : 2)}px`;
-        cursor.style.left = `${rect[target.classList.contains('letter') ? 'left' : 'right']}px`;
+        cursor.style.top = `${rect.top + (target.classList.contains('letter') ? +2 : 0)}px`;
+        cursor.style.left = `${rect[target.classList.contains('letter') ? 'left' : 'right']+1}px`;
     }
 }
 

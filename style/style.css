@@ -7,6 +7,9 @@ body{
     box-sizing: border-box;
     height: 100vh;
     overflow: hidden;
+    /*display: flex;*/
+    /*justify-content: center;*/
+    /*align-items: center;*/
 }
 
 main{
@@ -28,18 +31,39 @@ h1{
 .header{
     height:50px;
     width: 100%;
-    border: orange solid 0.5px;
+    /*border: orange solid 0.5px;*/
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-content: center;
     align-items: center;
     /*padding-bottom: 40px;*/
+    padding: 0 3rem;
 }
 #info{
     color: var(--primaryColor);
+    display: flex;
+    flex-direction: row;
+
     /*background-color: rgba(0, 255, 255, 0.65);*/
 }
+
+.mode-details{
+    color: var(--primaryColor);
+    width: 300px;
+    /*height: 100%;*/
+    padding: 5px ;
+    /*border: red solid 5px;*/
+    /*background-color: #e8ecf0;*/
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 10px;
+    align-items: center;
+    width: fit-content;
+
+}
+
 #buttons{
     /*text-align: right;*/
 }
@@ -155,12 +179,12 @@ div.word{
 #cursor{
     display: none;
     width: 2px;
-    height: 1.4rem;
+    height: 1.8rem;
     background-color: var(--primaryColor);
     position: fixed;
-    top:202px;
-    left: 387px;
-    animation: blink .5s infinite;
+    /*top:202px;*/
+    /*left: 387px;*/
+    animation: blink 0.7s infinite;
 }
 #game:focus #cursor{
     display: block;
@@ -179,8 +203,9 @@ div#game:focus{
 .letter {
     display: inline-block;
     padding: 2px;
-    /*border: 1px solid #ccc;*/
     border-radius: 4px;
+    transition: color linear 0.1s;
+
 }
 
 .letter.correct{
@@ -188,7 +213,7 @@ div#game:focus{
     /*background-color: #c8e6c9; !* Light green *!*/
 }
 .letter.incorrect{
-    color: red;
+    color: rgba(255, 0, 0, 0.63);
     /*background-color: #ffcdd2; !* Light red *!*/
 }
 

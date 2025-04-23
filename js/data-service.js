@@ -40,7 +40,7 @@ export class DataService {
     static wordsStorageKey = 'wordsCache';
 
     static async fetchData() {
-        this.clearCache()
+        // this.clearCache()
         const quotesCache = localStorage.getItem(this.quotesStorageKey);
         const wordsCache = localStorage.getItem(this.wordsStorageKey);
 
